@@ -13,7 +13,10 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 
-import { launchApp } from '../controllers';
+import {
+  getMe,
+  launchApp,
+} from '../controllers';
 
 /*
     // root: {
@@ -52,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface HomeProps {
+  onGetMe: () => any;
   onLaunchApp: () => any;
 }
 
@@ -63,6 +67,7 @@ const Home = (props: HomeProps) => {
 
   const handleAuthenticate = () => {
     console.log('handleAuthenticate');
+    props.onGetMe();
   };
 
   return (
@@ -97,7 +102,7 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onLaunchApp: launchApp,
-
+    onGetMe: getMe,
   }, dispatch);
 };
 
