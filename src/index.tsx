@@ -12,7 +12,7 @@ import { rootReducer } from './models';
 
 import Home from './components/home';
 
-export const serverUrl = 'https://damp-falls-28733.herokuapp.com';
+export const serverUrl = 'http://localhost:8888';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

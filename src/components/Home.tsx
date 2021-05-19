@@ -8,9 +8,12 @@ import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
+
+import { launchApp } from '../controllers';
 
 /*
     // root: {
@@ -49,11 +52,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface HomeProps {
+  onLaunchApp: () => any;
 }
 
 const Home = (props: HomeProps) => {
 
   const classes = useStyles();
+
+  React.useEffect(props.onLaunchApp, []);
+
+  const handleAuthenticate = () => {
+    console.log('handleAuthenticate');
+  };
 
   return (
     <HashRouter>
@@ -64,10 +74,20 @@ const Home = (props: HomeProps) => {
             Ted Spotify
           </Typography>
         </div>
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handleAuthenticate}
+        >
+          Authenticate
+        </Button>
+
       </Container>
     </HashRouter>
   );
-}
+};
 
 function mapStateToProps(state: any) {
   return {
@@ -76,6 +96,8 @@ function mapStateToProps(state: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onLaunchApp: launchApp,
+
   }, dispatch);
 };
 

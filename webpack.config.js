@@ -1,3 +1,6 @@
+var webpack = require('webpack');
+var CopyWebpackPlugin =  require('copy-webpack-plugin');
+
 module.exports = {
   mode: 'development',
 
@@ -12,9 +15,6 @@ module.exports = {
   devtool: 'source-map',
 
   target: 'web',
-
-  plugins: [
-  ],
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
@@ -31,5 +31,19 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new CopyWebpackPlugin([
+      { from: './build/bundle.js', to: '../../spotify-2/public/build' },
+      { from: './build/bundle.js.map', to: '../../spotify-2/public/build' },
+    ]),
+  ]
 };
