@@ -60,3 +60,15 @@ export const pausePlayback = () => {
     });
 };
 
+export const skipToNextTrack = () => {
+  console.log('invoke skipToNextTrack endpoint');
+  const path = 'http://localhost:8888/api/v1/skipToNextTrack';
+  axios.post(path)
+    .then((response) => {
+      console.log(response);
+    }).catch((err: Error) => {
+      console.log(err);
+      return Promise.reject(err);
+    });
+};
+

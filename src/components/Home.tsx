@@ -20,6 +20,7 @@ import {
   getMyPlaylists,
   launchApp,
   pausePlayback,
+  skipToNextTrack,
   startPlayback,
 } from '../controllers';
 
@@ -94,6 +95,11 @@ const Home = (props: HomeProps) => {
     startPlayback();
   };
 
+  const handleSkipToNextTrack = () => {
+    console.log('handleSkipToNextTrack');
+    skipToNextTrack();
+  };
+
   return (
     <HashRouter>
       <Container maxWidth='xs'>
@@ -144,6 +150,15 @@ const Home = (props: HomeProps) => {
           onClick={handlePausePlayback}
         >
           Pause Playback
+        </Button>
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handleSkipToNextTrack}
+        >
+          Skip to next track
         </Button>
         <Playlists />
 
