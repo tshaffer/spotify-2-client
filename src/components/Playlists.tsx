@@ -12,9 +12,11 @@ export interface PlaylistsProps {
 
 const Playlists = (props: PlaylistsProps) => {
 
-  console.log('spotifyPlaylists');
-  console.log(props.spotifyPlaylists);
-
+  const handleOpenPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
+    console.log('handleOpenPlaylist');
+    console.log(spotifyPlaylist);
+  }
+  
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
       <tr key={spotifyPlaylist.id}>
@@ -24,6 +26,10 @@ const Playlists = (props: PlaylistsProps) => {
         <td>
           {spotifyPlaylist.tracks.total}
         </td>
+        <td>
+          <button onClick={() => handleOpenPlaylist(spotifyPlaylist)}>Open</button>
+        </td>
+
       </tr>
     );
   };
@@ -37,6 +43,9 @@ const Playlists = (props: PlaylistsProps) => {
 
     return playlistRows;
   };
+
+  console.log('spotifyPlaylists');
+  console.log(props.spotifyPlaylists);
 
   if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
 
@@ -52,6 +61,7 @@ const Playlists = (props: PlaylistsProps) => {
             <tr>
               <th>Name</th>
               <th>Track Count</th>
+              <th/>
             </tr>
           </thead>
           <tbody>
