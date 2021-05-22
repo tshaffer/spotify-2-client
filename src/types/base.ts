@@ -1,10 +1,6 @@
-import { SpotifyPlaylist } from './spotifyApi';
+import { SpotifyPlaylists } from './spotifyApi';
 
 export interface SpotifyState {
-  spotifyPlaylists: SpotifyPlaylistsMap;
-}
-
-export interface SpotifyPlaylistsMap {
-  [id: string]: SpotifyPlaylist; // spotifyPlaylistId
+  spotifyPlaylists: SpotifyPlaylists;
 }
 

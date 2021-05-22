@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SpotifyPlaylist, SpotifyPlaylists } from 'src/types';
+import { addSpotifyPlaylists } from '../models';
+import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 
 export const getMe = () => {
   return ((dispatch: any, getState: any): any => {
@@ -26,6 +27,7 @@ export const getMyPlaylists = () => {
         const spotifyPlaylists: SpotifyPlaylists = response.data as SpotifyPlaylists;
         console.log('spotifyPlaylists');
         console.log(spotifyPlaylists);
+        dispatch(addSpotifyPlaylists(spotifyPlaylists));
       }).catch((err: Error) => {
         console.log(err);
         return Promise.reject(err);

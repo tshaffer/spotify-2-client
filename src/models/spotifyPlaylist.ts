@@ -1,34 +1,30 @@
-// ------------------------------------
-// Constants
-
 import { cloneDeep } from 'lodash';
-import { SpotifyPlaylist, SpotifyPlaylistsMap } from '../types';
+import { SpotifyPlaylists } from '../types';
 import { SpotifyPlaylistAction } from './baseAction';
 
 // ------------------------------------
-export const ADD_SPOTIFY_PLAYLIST = 'ADD_SPOTIFY_PLAYLIST';
+// Constants
+// ------------------------------------
+
+export const ADD_SPOTIFY_PLAYLISTS = 'ADD_SPOTIFY_PLAYLISTS';
+
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export type PartialPlaylistDescription = Partial<SpotifyPlaylist>;
-
-export interface AddSpotifyPlaylistPayload {
-  id: string;
-  spotifyPlaylist: SpotifyPlaylist;
+export interface AddSpotifyPlaylistsPayload {
+  spotifyPlaylists: SpotifyPlaylists;
 }
 
-export const addSpotifyPlaylist = (
-  id: string,
-  spotifyPlaylist: SpotifyPlaylist
-): SpotifyPlaylistAction<AddSpotifyPlaylistPayload> => {
+export const addSpotifyPlaylists = (
+  spotifyPlaylists: SpotifyPlaylists
+): SpotifyPlaylistAction<AddSpotifyPlaylistsPayload> => {
 
   return {
-    type: ADD_SPOTIFY_PLAYLIST,
+    type: ADD_SPOTIFY_PLAYLISTS,
     payload: {
-      id,
-      spotifyPlaylist,
+      spotifyPlaylists,
     },
   };
 };
@@ -37,17 +33,18 @@ export const addSpotifyPlaylist = (
 // Reducer
 // ------------------------------------
 
-const initialState: SpotifyPlaylistsMap = {};
+// TEDTODO - initialize
+const initialState: SpotifyPlaylists | any = {};
 
 export const spotifyPlaylistsReducer = (
-  state: SpotifyPlaylistsMap = initialState,
-  action: SpotifyPlaylistAction<AddSpotifyPlaylistPayload>
-): SpotifyPlaylistsMap => {
+  state: SpotifyPlaylists = initialState,
+  action: SpotifyPlaylistAction<AddSpotifyPlaylistsPayload>
+): SpotifyPlaylists => {
   switch (action.type) {
-    case ADD_SPOTIFY_PLAYLIST: {
-      const newState = cloneDeep(state);
-      const { id, spotifyPlaylist } = action.payload;
-      newState[id] = spotifyPlaylist;
+    case ADD_SPOTIFY_PLAYLISTS: {
+      let newState = cloneDeep(state);
+      const { spotifyPlaylists } = action.payload;
+      newState = spotifyPlaylists;
       return newState;
     }
     default:
