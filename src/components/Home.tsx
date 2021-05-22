@@ -19,6 +19,8 @@ import {
   getMe,
   getMyPlaylists,
   launchApp,
+  pausePlayback,
+  startPlayback,
 } from '../controllers';
 
 /*
@@ -82,6 +84,16 @@ const Home = (props: HomeProps) => {
     props.onGetMyPlaylists();
   };
 
+  const handlePausePlayback = () => {
+    console.log('handlePausePlayback');
+    pausePlayback();
+  };
+
+  const handleStartPlayback = () => {
+    console.log('handleStartPlayback');
+    startPlayback();
+  };
+
   return (
     <HashRouter>
       <Container maxWidth='xs'>
@@ -115,7 +127,25 @@ const Home = (props: HomeProps) => {
         >
           Get My Playlists
         </Button>
-        <Playlists/>
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handleStartPlayback}
+        >
+          Start Playback
+        </Button>
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handlePausePlayback}
+        >
+          Pause Playback
+        </Button>
+        <Playlists />
 
       </Container>
     </HashRouter>

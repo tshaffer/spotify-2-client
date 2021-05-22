@@ -35,3 +35,28 @@ export const getMyPlaylists = () => {
   });
 
 };
+
+export const startPlayback = () => {
+  console.log('invoke startPlayback endpoint');
+  const path = 'http://localhost:8888/api/v1/startPlayback';
+  axios.put(path)
+    .then((response) => {
+      console.log(response);
+    }).catch((err: Error) => {
+      console.log(err);
+      return Promise.reject(err);
+    });
+};
+
+export const pausePlayback = () => {
+  console.log('invoke pausePlayback endpoint');
+  const path = 'http://localhost:8888/api/v1/pausePlayback';
+  axios.put(path)
+    .then((response) => {
+      console.log(response);
+    }).catch((err: Error) => {
+      console.log(err);
+      return Promise.reject(err);
+    });
+};
+
