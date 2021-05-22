@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';

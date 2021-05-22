@@ -1,8 +1,10 @@
+import { SpotifyPlaylist } from './spotifyApi';
+
 export interface SpotifyState {
-  user: User;
+  spotifyPlaylists: SpotifyPlaylistsMap;
 }
 
-export interface User {
-  userName: string;
-  email: string;
+export interface SpotifyPlaylistsMap {
+  [id: string]: SpotifyPlaylist; // spotifyPlaylistId
 }
+

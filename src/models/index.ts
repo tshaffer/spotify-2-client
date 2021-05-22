@@ -1,3 +1,3 @@
 export * from './baseAction';
 export * from './baseReducer';
-export * from './user';
+export * from './spotifyPlaylist';

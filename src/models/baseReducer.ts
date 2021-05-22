@@ -5,13 +5,13 @@ import {
 } from 'redux';
 import { SpotifyState } from '../types';
 
-import { userReducer } from './user';
+import { spotifyPlaylistsReducer } from './spotifyPlaylist';
 
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
 export const rootReducer = combineReducers<SpotifyState>({
-  user: userReducer,
+  spotifyPlaylists: spotifyPlaylistsReducer,
 });
 
 // -----------------------------------------------------------------------
