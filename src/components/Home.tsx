@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 import {
   getMe,
+  getMyPlaylists,
   launchApp,
 } from '../controllers';
 
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface HomeProps {
   onGetMe: () => any;
+  onGetMyPlaylists: () => any;
   onLaunchApp: () => any;
 }
 
@@ -63,11 +65,19 @@ const Home = (props: HomeProps) => {
 
   const classes = useStyles();
 
-  React.useEffect(props.onLaunchApp, []);
-
   const handleAuthenticate = () => {
     console.log('handleAuthenticate');
+    props.onLaunchApp();
+  };
+
+  const handleGetMe = () => {
+    console.log('handleGetMe');
     props.onGetMe();
+  };
+
+  const handleGetMyPlaylists = () => {
+    console.log('handleGetMyPlaylists');
+    props.onGetMyPlaylists();
   };
 
   return (
@@ -88,6 +98,21 @@ const Home = (props: HomeProps) => {
         >
           Authenticate
         </Button>
+        <a href="http://localhost:8888/login">
+          Login
+        </a>
+        <Link href="#" onClick={handleGetMe}>
+          Get Me
+        </Link>
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handleGetMyPlaylists}
+        >
+          Get My Playlists
+        </Button>
 
       </Container>
     </HashRouter>
@@ -103,6 +128,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onLaunchApp: launchApp,
     onGetMe: getMe,
+    onGetMyPlaylists: getMyPlaylists,
   }, dispatch);
 };
 
