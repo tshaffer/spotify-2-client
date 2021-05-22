@@ -26,7 +26,7 @@ export interface SpotifyPlaylist {  // SimplifiedPlaylistObject
   primary_color?: any;  // undocumented
   public: boolean;
   snapshot_id: string;
-  tracks: any[]; // PlaylistTracksRefObject
+  tracks: SpotifyPlaylistTracksRefObject; // PlaylistTracksRefObject
   type: string;
   uri: string;
 }

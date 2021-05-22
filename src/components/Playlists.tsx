@@ -3,7 +3,7 @@ import { isNil, isArray } from 'lodash';
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SpotifyPlaylists } from '../types';
+import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
 
 export interface PlaylistsProps {
@@ -15,10 +15,49 @@ const Playlists = (props: PlaylistsProps) => {
   console.log('spotifyPlaylists');
   console.log(props.spotifyPlaylists);
 
-  if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
+  const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
-      <div>
-        Number of items { props.spotifyPlaylists.items.length }
+      <tr key={spotifyPlaylist.id}>
+        <td>
+          {spotifyPlaylist.name}
+        </td>
+        <td>
+          {spotifyPlaylist.tracks.total}
+        </td>
+      </tr>
+    );
+  };
+
+  const buildPlaylistRows = (): any[] => {
+
+    const playlistRows: any = props.spotifyPlaylists.items.map((spotifyPlaylist: SpotifyPlaylist) => {
+      const playlistRow = buildPlaylistRow(spotifyPlaylist);
+      return playlistRow;
+    });
+
+    return playlistRows;
+  };
+
+  if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
+
+    // table of Playlists
+    //    name
+    //    tracks.total
+    const playlistRows = buildPlaylistRows();
+    return (
+      <div id='SummaryActivities'>
+        <br />
+        <table id='activitiesTable'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Track Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {playlistRows}
+          </tbody>
+        </table>
       </div>
     );
   }
