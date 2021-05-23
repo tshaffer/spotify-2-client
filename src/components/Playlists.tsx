@@ -3,6 +3,9 @@ import { isNil, isArray } from 'lodash';
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
 
@@ -15,8 +18,8 @@ const Playlists = (props: PlaylistsProps) => {
   const handleOpenPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
     console.log('handleOpenPlaylist');
     console.log(spotifyPlaylist);
-  }
-  
+  };
+
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
       <tr key={spotifyPlaylist.id}>
@@ -27,9 +30,12 @@ const Playlists = (props: PlaylistsProps) => {
           {spotifyPlaylist.tracks.total}
         </td>
         <td>
-          <button onClick={() => handleOpenPlaylist(spotifyPlaylist)}>Open</button>
+          <IconButton
+            id={spotifyPlaylist.id}
+            onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
+            <AddCircleOutlineIcon />
+          </IconButton>
         </td>
-
       </tr>
     );
   };
@@ -61,7 +67,7 @@ const Playlists = (props: PlaylistsProps) => {
             <tr>
               <th>Name</th>
               <th>Track Count</th>
-              <th/>
+              <th />
             </tr>
           </thead>
           <tbody>
