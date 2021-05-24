@@ -20,9 +20,17 @@ const Playlists = (props: PlaylistsProps) => {
     console.log(spotifyPlaylist);
   };
 
+  const handleOpenPlaylistNew = (e: any): any => {
+    console.log('invoke handleOpenPlaylistNew');
+    const spotifyPlaylistId: string = e.target.getAttribute('data-item');
+    console.log(spotifyPlaylistId);
+  };
+
+  //       <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={handleOpenPlaylistNew}>
+
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
-      <tr key={spotifyPlaylist.id}>
+      <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
         <td>
           {spotifyPlaylist.name}
         </td>
