@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { addSpotifyPlaylists } from '../models';
-import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
+import { addSpotifyPlaylists, addSpotifyUser } from '../models';
+import { SpotifyPlaylist, SpotifyPlaylists, SpotifyUser } from '../types';
 
 export const getMe = () => {
   return ((dispatch: any, getState: any): any => {
@@ -9,6 +9,7 @@ export const getMe = () => {
     axios.get(path)
       .then((response) => {
         console.log(response.data);
+        dispatch(addSpotifyUser(response.data as SpotifyUser));
       }).catch((err: Error) => {
         console.log(err);
         return Promise.reject(err);

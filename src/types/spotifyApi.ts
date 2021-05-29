@@ -1,3 +1,18 @@
+// https://developer.spotify.com/documentation/web-api/reference/#object-privateuserobject
+export interface SpotifyUser {
+  country: string;
+  display_name: string;
+  email: string;
+  explicit_content: any;
+  external_urls: SpotifyExternalUrlObject[]; // ExternalUrlObject
+  followers: SpotifyFollowersObject;
+  href: string;
+  id: string;
+  images: SpotifyImageObject[]; // Array[ImageObject]
+  product: string;
+  type: string;
+  uri: string;
+}
 // https://developer.spotify.com/documentation/web-api/reference/#object-pagingobject
 export interface SpotifyPagingObject {
   href: string;
@@ -47,7 +62,7 @@ export interface SpotifyImageObject {
 export interface SpotifyPublicUserObject {
   display_name: string;
   external_urls: SpotifyExternalUrlObject;
-  followers: any; // FollowersObject
+  followers: SpotifyFollowersObject;
   href: string;
   id: string;
   images: SpotifyImageObject[];

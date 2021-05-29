@@ -18,3 +18,9 @@ export interface SpotifyPlaylistAction<T> extends SpotifyBaseAction {
   payload: T;
 }
 
+export interface SpotifyApiAction<T> extends SpotifyBaseAction {
+  payload: T;
+}
+
+
+

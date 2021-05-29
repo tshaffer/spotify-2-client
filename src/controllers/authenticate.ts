@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // unused?
-export const launchApp = () => {
+export const authenticate = () => {
   return ((dispatch: any, getState: any): any => {
     console.log('launch app');
     // const path = 'http://localhost:8888/login';

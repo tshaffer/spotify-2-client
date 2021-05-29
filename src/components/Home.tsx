@@ -18,7 +18,7 @@ import Playlists from './Playlists';
 import {
   getMe,
   getMyPlaylists,
-  launchApp,
+  authenticate,
   pausePlayback,
   skipToNextTrack,
   startPlayback,
@@ -63,16 +63,20 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface HomeProps {
   onGetMe: () => any;
   onGetMyPlaylists: () => any;
-  onLaunchApp: () => any;
+  onAuthenticate: () => any;
+  // onLaunchApp: () => any;
 }
 
 const Home = (props: HomeProps) => {
 
   const classes = useStyles();
 
+  // Equivalent to old componentDidMount
+  React.useEffect(props.onGetMe, []);
+
   const handleAuthenticate = () => {
     console.log('handleAuthenticate');
-    props.onLaunchApp();
+    props.onAuthenticate();
   };
 
   const handleGetMe = () => {
@@ -118,7 +122,7 @@ const Home = (props: HomeProps) => {
         >
           Authenticate
         </Button>
-        <a href="http://localhost:8888/login">
+        <a target='_blank' href="http://localhost:8888/login" rel="noreferrer">
           Login
         </a>
         <Link href="#" onClick={handleGetMe}>
@@ -174,7 +178,7 @@ function mapStateToProps(state: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
-    onLaunchApp: launchApp,
+    onAuthenticate: authenticate,
     onGetMe: getMe,
     onGetMyPlaylists: getMyPlaylists,
   }, dispatch);
