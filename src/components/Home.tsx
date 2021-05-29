@@ -23,6 +23,9 @@ import {
   skipToNextTrack,
   startPlayback,
 } from '../controllers';
+import { getSpotifyUser } from '../selectors';
+import { isNil } from 'lodash';
+import { SpotifyUser } from '../types';
 
 /*
     // root: {
@@ -61,6 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface HomeProps {
+  spotifyUser: SpotifyUser;
   onGetMe: () => any;
   onGetMyPlaylists: () => any;
   onAuthenticate: () => any;
@@ -104,15 +108,48 @@ const Home = (props: HomeProps) => {
     skipToNextTrack();
   };
 
-  return (
-    <HashRouter>
-      <Container maxWidth='xs'>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography component='h1' variant='h5'>
-            Ted Spotify
-          </Typography>
-        </div>
+  const renderNoUser = () => {
+    return (
+      <div>
+        <p>User not logged in</p>
+        <a target='_blank' href="http://localhost:8888/login" rel="noreferrer">
+          Login
+        </a>
+      </div>
+    );
+  };
+
+  const renderAuthenticatedUser = () => {
+    return (
+      <div>
+        User: {props.spotifyUser.display_name}
+        <Button
+          type='button'
+          fullWidth
+          variant='contained'
+          color='primary'
+          onClick={handleGetMyPlaylists}
+        >
+          Retrieve Playlists
+        </Button>
+        <Playlists />
+      </div>
+    );
+  };
+
+  const renderMainPage = () => {
+    const spotifyUser: SpotifyUser = props.spotifyUser;
+    if (isNil(spotifyUser)) {
+      return renderNoUser();
+    } else {
+      return renderAuthenticatedUser();
+    }
+  };
+
+  const oldRender = () => {
+    return (
+      <div>
+
         <Button
           type='button'
           fullWidth
@@ -165,6 +202,23 @@ const Home = (props: HomeProps) => {
           Skip to next track
         </Button>
         <Playlists />
+      </div>
+    );
+  };
+
+  const mainPage = renderMainPage();
+    
+  return (
+
+    <HashRouter>
+      <Container maxWidth='xs'>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component='h1' variant='h5'>
+            Ted Spotify
+          </Typography>
+          {mainPage}
+        </div>
 
       </Container>
     </HashRouter>
@@ -173,6 +227,7 @@ const Home = (props: HomeProps) => {
 
 function mapStateToProps(state: any) {
   return {
+    spotifyUser: getSpotifyUser(state),
   };
 }
 
