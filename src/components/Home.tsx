@@ -146,66 +146,6 @@ const Home = (props: HomeProps) => {
     }
   };
 
-  const oldRender = () => {
-    return (
-      <div>
-
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handleAuthenticate}
-        >
-          Authenticate
-        </Button>
-        <a target='_blank' href="http://localhost:8888/login" rel="noreferrer">
-          Login
-        </a>
-        <Link href="#" onClick={handleGetMe}>
-          Get Me
-        </Link>
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handleGetMyPlaylists}
-        >
-          Get My Playlists
-        </Button>
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handleStartPlayback}
-        >
-          Start Playback
-        </Button>
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handlePausePlayback}
-        >
-          Pause Playback
-        </Button>
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handleSkipToNextTrack}
-        >
-          Skip to next track
-        </Button>
-        <Playlists />
-      </div>
-    );
-  };
-
   const mainPage = renderMainPage();
     
   return (
