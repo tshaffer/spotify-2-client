@@ -93,7 +93,9 @@ export const openPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
 export const playPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
   return ((dispatch: any, getState: any): any => {
     console.log('invoke addPlaylistToQueue endpoint');
-    const path = 'http://localhost:8888/api/v1/addPlaylistTracksToQueue/' + spotifyPlaylist.id;
+    console.log('context_uri');
+    console.log(spotifyPlaylist.uri);
+    const path = 'http://localhost:8888/api/v1/addPlaylistTracksToQueue/' + spotifyPlaylist.id + '/contextUri/' + spotifyPlaylist.uri;
     axios.get(path)
       .then((response) => {
         console.log(response.data);
