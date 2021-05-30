@@ -15,6 +15,8 @@ import { SpotifyPlaylistTrackObject } from '../types';
 import { getSpotifyTracks } from '../selectors';
 import { isArray } from 'lodash';
 
+import { getDuration } from '../utilities';
+
 import { playTrack } from '../controllers';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,6 +77,12 @@ const Tracks = (props: TracksProps) => {
         <td>
           {spotifyTrack.track.name}
         </td>
+        <td>
+          {spotifyTrack.track.album.name}
+        </td>
+        <td>
+          {getDuration(spotifyTrack.track.duration_ms)}
+        </td>
       </tr>
     );
   };
@@ -103,7 +111,9 @@ const Tracks = (props: TracksProps) => {
           <thead>
             <tr>
               <th />
-              <th>Name</th>
+              <th>Track</th>
+              <th>Album</th>
+              <th>Duration</th>
             </tr>
           </thead>
           <tbody>

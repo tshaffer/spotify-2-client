@@ -112,7 +112,7 @@ const Home = (props: HomeProps) => {
     return (
       <div>
         <p>User not logged in</p>
-        <a target='_blank' href="http://localhost:8888/login" rel="noreferrer">
+        <a href="http://localhost:8888/login">
           Login
         </a>
       </div>
@@ -147,7 +147,7 @@ const Home = (props: HomeProps) => {
   };
 
   const mainPage = renderMainPage();
-    
+
   return (
 
     <HashRouter>
