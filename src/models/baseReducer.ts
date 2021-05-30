@@ -6,6 +6,7 @@ import {
 import { SpotifyState } from '../types';
 
 import { spotifyPlaylistsReducer } from './spotifyPlaylist';
+import { spotifyTracksReducer } from './spotifyTrack';
 import { spotifyUserReducer } from './spotifyUser';
 
 // -----------------------------------------------------------------------
@@ -14,6 +15,7 @@ import { spotifyUserReducer } from './spotifyUser';
 export const rootReducer = combineReducers<SpotifyState>({
   spotifyUser: spotifyUserReducer,
   spotifyPlaylists: spotifyPlaylistsReducer,
+  spotifyTracks: spotifyTracksReducer,
 });
 
 // -----------------------------------------------------------------------

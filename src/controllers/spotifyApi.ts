@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { addSpotifyPlaylists, addSpotifyUser } from '../models';
-import { SpotifyPlaylist, SpotifyPlaylists, SpotifyUser } from '../types';
+import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser } from '../models';
+import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyUser } from '../types';
 
 export const getMe = () => {
   return ((dispatch: any, getState: any): any => {
@@ -34,7 +34,6 @@ export const getMyPlaylists = () => {
         return Promise.reject(err);
       });
   });
-
 };
 
 export const startPlayback = () => {
@@ -71,6 +70,24 @@ export const skipToNextTrack = () => {
       console.log(err);
       return Promise.reject(err);
     });
+};
+
+export const openPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
+  return ((dispatch: any, getState: any): any => {
+    console.log('invoke getPlaylistTracks endpoint');
+    const path = 'http://localhost:8888/api/v1/getPlaylistTracks/' + spotifyPlaylist.id;
+    axios.get(path)
+      .then((response) => {
+        console.log(response);
+        // dispatch(addSpotifyPlaylists(spotifyPlaylists));
+        const spotifyPlaylistItems: SpotifyPlaylistItems = response.data;
+        const items: SpotifyPlaylistTrackObject[] = spotifyPlaylistItems.items;
+        dispatch(addSpotifyTracks(items));
+      }).catch((err: Error) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  });
 };
 
 export const playPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {

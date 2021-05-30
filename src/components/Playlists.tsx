@@ -10,10 +10,11 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
-import { playPlaylist } from '../controllers';
+import { openPlaylist, playPlaylist } from '../controllers';
 
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
+  onOpenPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
   onPlayPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
 
 }
@@ -30,13 +31,17 @@ const Playlists = (props: PlaylistsProps) => {
     console.log('handleOpenPlaylist');
     console.log(spotifyPlaylist);
 
+    props.onOpenPlaylist(spotifyPlaylist);
+
     const hashHistory = createHashHistory();
     hashHistory.push('/tracks');
   };
 
+  //       <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
+
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
-      <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
+      <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id}>
         <td>
           <IconButton
             id={spotifyPlaylist.id}
@@ -115,6 +120,7 @@ function mapStateToProps(state: any, ownProps: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onOpenPlaylist: openPlaylist,
     onPlayPlaylist: playPlaylist,
   }, dispatch);
 };
