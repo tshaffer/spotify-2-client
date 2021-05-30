@@ -73,3 +73,16 @@ export const skipToNextTrack = () => {
     });
 };
 
+export const playPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
+  return ((dispatch: any, getState: any): any => {
+    console.log('invoke addPlaylistToQueue endpoint');
+    const path = 'http://localhost:8888/api/v1/addPlaylistTracksToQueue/' + spotifyPlaylist.id;
+    axios.get(path)
+      .then((response) => {
+        console.log(response.data);
+      }).catch((err: Error) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  });
+};

@@ -10,7 +10,8 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import { rootReducer } from './models';
 
-import Home from './components/home';
+import Home from './components/Home';
+import Tracks from './components/Tracks';
 
 export const serverUrl = 'http://localhost:8888';
 
@@ -26,6 +27,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/home' component={Home} />
+        <Route exact path='/tracks' component={Tracks} />
       </Switch>
     </HashRouter>
   </Provider>,

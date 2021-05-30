@@ -3,34 +3,47 @@ import { isNil, isArray } from 'lodash';
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createHashHistory } from 'history';
+
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
+import { playPlaylist } from '../controllers';
 
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
+  onPlayPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
+
 }
 
 const Playlists = (props: PlaylistsProps) => {
 
+  const handlePlayPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
+    console.log('handlePlayPlaylist');
+    console.log(spotifyPlaylist);
+    props.onPlayPlaylist(spotifyPlaylist);
+  };
+
   const handleOpenPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
     console.log('handleOpenPlaylist');
     console.log(spotifyPlaylist);
-  };
 
-  const handleOpenPlaylistNew = (e: any): any => {
-    console.log('invoke handleOpenPlaylistNew');
-    const spotifyPlaylistId: string = e.target.getAttribute('data-item');
-    console.log(spotifyPlaylistId);
+    const hashHistory = createHashHistory();
+    hashHistory.push('/tracks');
   };
-
-  //       <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={handleOpenPlaylistNew}>
 
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
     return (
       <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
+        <td>
+          <IconButton
+            id={spotifyPlaylist.id}
+            onClick={() => handlePlayPlaylist(spotifyPlaylist)}>
+            <PlayArrowIcon />
+          </IconButton>
+        </td>
         <td>
           {spotifyPlaylist.name}
         </td>
@@ -73,6 +86,7 @@ const Playlists = (props: PlaylistsProps) => {
         <table id='activitiesTable'>
           <thead>
             <tr>
+              <th />
               <th>Name</th>
               <th>Track Count</th>
               <th />
@@ -101,6 +115,7 @@ function mapStateToProps(state: any, ownProps: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onPlayPlaylist: playPlaylist,
   }, dispatch);
 };
 
