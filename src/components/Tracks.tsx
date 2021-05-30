@@ -8,8 +8,14 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
-import { SpotifyUser } from '../types';
+import { SpotifyPlaylistTrackObject } from '../types';
+import { getSpotifyTracks } from '../selectors';
+import { isArray } from 'lodash';
+
+import { playTrack } from '../controllers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +44,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface TracksProps {
-  spotifyUser: SpotifyUser;
+  spotifyTracks: SpotifyPlaylistTrackObject[];
+  onPlayTrack: (spotifyPlaylistTrackObject: SpotifyPlaylistTrackObject) => any;
 }
 
 const Tracks = (props: TracksProps) => {
@@ -48,29 +55,82 @@ const Tracks = (props: TracksProps) => {
   // Equivalent to old componentDidMount
   // React.useEffect(props.onGetMe, []);
 
+  const handlePlayTrack = (spotifyTrack: SpotifyPlaylistTrackObject): any => {
+    console.log('handlePlayTrack');
+    console.log(spotifyTrack);
+    props.onPlayTrack(spotifyTrack);
+  };
+
+
+  const buildRow = (spotifyTrack: SpotifyPlaylistTrackObject): any => {
+    return (
+      <tr key={spotifyTrack.track.id}>
+        <td>
+          <IconButton
+            id={spotifyTrack.track.id}
+            onClick={() => handlePlayTrack(spotifyTrack)}>
+            <PlayArrowIcon />
+          </IconButton>
+        </td>
+        <td>
+          {spotifyTrack.track.name}
+        </td>
+      </tr>
+    );
+  };
+
+
+  const buildRows = (spotifyTracks: SpotifyPlaylistTrackObject[]): any[] => {
+    const rows: any = spotifyTracks.map((spotifyTrack: SpotifyPlaylistTrackObject) => {
+      const row = buildRow(spotifyTrack);
+      return row;
+    });
+
+    return rows;
+  };
+
+  console.log('spotifyTracks');
+  console.log(props.spotifyTracks);
+
+  if (isArray(props.spotifyTracks) && props.spotifyTracks.length > 0) {
+
+    const rows = buildRows(props.spotifyTracks);
+
+    return (
+      <div id='SummaryActivities'>
+        <br />
+        <table id='activitiesTable'>
+          <thead>
+            <tr>
+              <th />
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   return (
-
-    <HashRouter>
-      <Container maxWidth='xs'>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography component='h1' variant='h5'>
-            Pizza
-          </Typography>
-        </div>
-
-      </Container>
-    </HashRouter>
+    <div>
+      Loading...
+    </div>
   );
+
 };
 
 function mapStateToProps(state: any) {
   return {
+    spotifyTracks: getSpotifyTracks(state),
   };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onPlayTrack: playTrack,
   }, dispatch);
 };
 

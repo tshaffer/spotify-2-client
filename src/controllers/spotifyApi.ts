@@ -103,3 +103,17 @@ export const playPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
       });
   });
 };
+
+export const playTrack = (spotifyPlaylistTrackObject: SpotifyPlaylistTrackObject) => {
+  return ((dispatch: any, getState: any): any => {
+    console.log('invoke playTrack endpoint');
+    // const path = 'http://localhost:8888/api/v1/addPlaylistTracksToQueue/' + spotifyPlaylist.id;
+    // axios.get(path)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   }).catch((err: Error) => {
+    //     console.log(err);
+    //     return Promise.reject(err);
+    //   });
+  });
+};
