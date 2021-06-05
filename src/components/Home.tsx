@@ -13,6 +13,13 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 
+import IconButton from '@material-ui/core/IconButton';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import PauseIcon from '@material-ui/icons/Pause';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+
 import Playlists from './Playlists';
 
 import {
@@ -44,6 +51,17 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+    },
+    parentDiv: {
+      position: 'relative',
+      // height: '1080px',
+      height: '100%',
+    },
+    toolbarDiv: {
+      position: 'absolute',
+      left: '50%',
+      bottom: '0px',
+      transform: 'translateX(-50%)',
     },
     table: {
       minWidth: 750,
@@ -78,6 +96,76 @@ const Home = (props: HomeProps) => {
   // Equivalent to old componentDidMount
   React.useEffect(props.onGetMe, []);
 
+  const getShuffleIcon = () => {
+    return (
+      <IconButton
+        id={'1'}
+        onClick={handleShuffle}>
+        <ShuffleIcon style={{ color: 'green' }} />
+      </IconButton>
+    );
+  }
+  
+  const getPreviousIcon = () => {
+    return (
+      <IconButton
+        id={'1'}
+        onClick={handleSkipPrevious}>
+        <SkipPreviousIcon style={{ color: 'green' }} />
+      </IconButton>
+    );
+  }
+  
+  const getPauseIcon = () => {
+    return (
+      <IconButton
+        id={'1'}
+        onClick={handlePause}>
+        <PauseIcon style={{ color: 'green' }} />
+      </IconButton>
+    );
+  }
+  
+  const getPlayIcon = () => {
+    return (
+      <IconButton
+        id={'1'}
+        onClick={handlePlay}>
+        <PlayArrowIcon style={{ color: 'green' }} />
+      </IconButton>
+    );
+  }
+  
+  const getNextIcon = () => {
+    return (
+      <IconButton
+        id={'1'}
+        onClick={handleSkipNext}>
+        <SkipNextIcon style={{ color: 'green' }} />
+      </IconButton>
+    );
+  }
+  
+  const handleShuffle = () => {
+    console.log('handleShuffle invoked');
+  }
+
+  const handleSkipPrevious = () => {
+    console.log('handleSkipPrevious invoked');
+  }
+  
+  const handlePause = () => {
+    console.log('handlePause invoked');
+  }
+  
+  const handlePlay = () => {
+    console.log('handlePlay invoked');
+  }
+  
+  const handleSkipNext = () => {
+    console.log('handleSkipNext invoked');
+  }
+  
   const handleAuthenticate = () => {
     console.log('handleAuthenticate');
     props.onAuthenticate();
@@ -146,7 +234,20 @@ const Home = (props: HomeProps) => {
     }
   };
 
+  const renderToolbar = () => {
+    return (
+      <div className={classes.toolbarDiv}>
+        {getShuffleIcon()}
+        {getPreviousIcon()}
+        {getPauseIcon()}
+        {getPlayIcon()}
+        {getNextIcon()}
+      </div>
+    );
+  };
+
   const mainPage = renderMainPage();
+  const toolBar = renderToolbar();
 
   return (
 
@@ -158,6 +259,7 @@ const Home = (props: HomeProps) => {
             Ted Spotify
           </Typography>
           {mainPage}
+          {toolBar}
         </div>
 
       </Container>
