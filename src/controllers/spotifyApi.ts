@@ -60,9 +60,9 @@ export const pausePlayback = () => {
     });
 };
 
-export const shufflePlayback = () => {
+export const shufflePlayback = (shuffleState: boolean) => {
   console.log('invoke shufflePlayback endpoint');
-  const path = 'http://localhost:8888/api/v1/shufflePlayback';
+  const path = 'http://localhost:8888/api/v1/shufflePlayback/' + shuffleState.toString().toLowerCase();
   axios.post(path)
     .then((response) => {
       console.log(response);

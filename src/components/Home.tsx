@@ -89,7 +89,7 @@ export interface HomeProps {
   onGetMyPlaylists: () => any;
   onAuthenticate: () => any;
   // onLaunchApp: () => any;
-  onShufflePlayback: () => any;
+  onShufflePlayback: (shuffleState: boolean) => any;
   onSkipPrevious: () => any;
   onPausePlayback: () => any;
   onStartOrResumePlayback: () => any;
@@ -155,7 +155,7 @@ const Home = (props: HomeProps) => {
   
   const handleShuffle = () => {
     console.log('handleShuffle invoked');
-    props.onShufflePlayback();
+    props.onShufflePlayback(true);
   }
 
   const handleSkipPrevious = () => {
