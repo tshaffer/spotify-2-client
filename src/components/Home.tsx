@@ -26,6 +26,8 @@ import {
   getMe,
   getMyPlaylists,
   authenticate,
+  shufflePlayback,
+  skipToPreviousTrack,
   pausePlayback,
   skipToNextTrack,
   startPlayback,
@@ -87,6 +89,11 @@ export interface HomeProps {
   onGetMyPlaylists: () => any;
   onAuthenticate: () => any;
   // onLaunchApp: () => any;
+  onShufflePlayback: () => any;
+  onSkipPrevious: () => any;
+  onPausePlayback: () => any;
+  onStartOrResumePlayback: () => any;
+  onSkipNext: () => any;
 }
 
 const Home = (props: HomeProps) => {
@@ -148,22 +155,27 @@ const Home = (props: HomeProps) => {
   
   const handleShuffle = () => {
     console.log('handleShuffle invoked');
+    props.onShufflePlayback();
   }
 
   const handleSkipPrevious = () => {
     console.log('handleSkipPrevious invoked');
+    props.onSkipPrevious();
   }
   
   const handlePause = () => {
     console.log('handlePause invoked');
+    props.onPausePlayback();
   }
   
   const handlePlay = () => {
     console.log('handlePlay invoked');
+    props.onStartOrResumePlayback();
   }
   
   const handleSkipNext = () => {
     console.log('handleSkipNext invoked');
+    props.onSkipNext();
   }
   
   const handleAuthenticate = () => {
@@ -278,6 +290,11 @@ const mapDispatchToProps = (dispatch: any) => {
     onAuthenticate: authenticate,
     onGetMe: getMe,
     onGetMyPlaylists: getMyPlaylists,
+    onShufflePlayback: shufflePlayback,
+    onSkipPrevious: skipToPreviousTrack,
+    onPausePlayback: pausePlayback,
+    onStartOrResumePlayback: startPlayback,
+    onSkipNext: skipToNextTrack,
   }, dispatch);
 };
 
