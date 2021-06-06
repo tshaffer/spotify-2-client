@@ -29,6 +29,22 @@ module.exports = {
             loader: 'ts-loader'
           }
         ]
+      },
+      {
+        test: /\.js?$/,
+        use: [
+          {
+            loader: 'ts-loader'
+          }
+        ]
+      },
+      {
+        test: /\.jsx?$/,
+        use: [
+          {
+            loader: 'ts-loader'
+          }
+        ]
       }
     ]
   },

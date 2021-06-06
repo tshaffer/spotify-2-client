@@ -1,52 +1,63 @@
 import axios from 'axios';
+import SpotifyPlayer from 'spotify-web-playback';
 import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser } from '../models';
 import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyUser } from '../types';
 
-(window as any).onSpotifyWebPlaybackSDKReady = () => {
-  console.log('onSpotifyWebPlaybackSDKReady invoked');
+
+// (window as any).onSpotifyWebPlaybackSDKReady = () => {
+//   console.log('onSpotifyWebPlaybackSDKReady invoked');
+//   const token = 'BQD8jvky7kKyyh9tggoul6Ml8OVc2XX5znWtoGKOpTlwujWugoj8XmrLxChm9hR-nQz5_x70ORajtAE5QJdf9vBI_QxSEmBeaHQ61fVc2LDBBV_rCe0qg4SoGdXvQncffkuWPuQWuX5EfqASGfs8P5e49SKYa54GYQ';
+//   const player = new Spotify.Player({
+//     name: 'Web Playback SDK Quick Start Player',
+//     getOAuthToken: cb => { cb(token); }
+//   });
+
+//   let message: string;
+
+//   // Error handling
+//   player.addListener('initialization_error', () => { console.error(message); });
+//   player.addListener('authentication_error', () => { console.error(message); });
+//   player.addListener('account_error', () => { console.error(message); });
+//   player.addListener('playback_error', () => { console.error(message); });
+
+//   // Playback status updates
+//   player.addListener('player_state_changed', (state: any) => { console.log(state); });
+
+//   // Ready
+//   player.addListener('ready', ({ device_id }) => {
+//     console.log('Ready with Device ID', device_id);
+//   });
+
+//   // Not Ready
+//   player.addListener('not_ready', ({ device_id }) => {
+//     console.log('Device ID has gone offline', device_id);
+//   });
+
+//   // Connect to the player!
+//   player.connect();
+// };
+
+const loadSpotifyWebPlaybackSDK  = async () => {
+
+  console.log('loadSpotifyWebPlaybackSDK');
+
   const token = 'BQD8jvky7kKyyh9tggoul6Ml8OVc2XX5znWtoGKOpTlwujWugoj8XmrLxChm9hR-nQz5_x70ORajtAE5QJdf9vBI_QxSEmBeaHQ61fVc2LDBBV_rCe0qg4SoGdXvQncffkuWPuQWuX5EfqASGfs8P5e49SKYa54GYQ';
-  const player = new Spotify.Player({
-    name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: cb => { cb(token); }
-  });
+  // const uri = 'spotify:album:51QBkcL7S3KYdXSSA0zM9R';
+  const spotify = new SpotifyPlayer('Web Playback SDK Quick Start Player');
+  await spotify.connect(token);
+  console.log(spotify);
 
-  let message: string;
-
-  // Error handling
-  player.addListener('initialization_error', () => { console.error(message); });
-  player.addListener('authentication_error', () => { console.error(message); });
-  player.addListener('account_error', () => { console.error(message); });
-  player.addListener('playback_error', () => { console.error(message); });
-
-  // Playback status updates
-  player.addListener('player_state_changed', (state: any) => { console.log(state); });
-
-  // Ready
-  player.addListener('ready', ({ device_id }) => {
-    console.log('Ready with Device ID', device_id);
-  });
-
-  // Not Ready
-  player.addListener('not_ready', ({ device_id }) => {
-    console.log('Device ID has gone offline', device_id);
-  });
-
-  // Connect to the player!
-  player.connect();
-};
-
-const loadSpotifyWebPlaybackSDK = () => {
-  console.log('loadScript');
-  const script = document.createElement('script');
-  script.src = 'https://sdk.scdn.co/spotify-player.js';
-  script.async = true;
-  document.body.appendChild(script);
+  // console.log('loadScript');
+  // const script = document.createElement('script');
+  // script.src = 'https://sdk.scdn.co/spotify-player.js';
+  // script.async = true;
+  // document.body.appendChild(script);
 };
 
 export const launchApp = () => {
-  return ((dispatch: any, getState: any): any => {
+  return (async (dispatch: any, getState: any): Promise<any> => {
     dispatch(getMe());
-    loadSpotifyWebPlaybackSDK();
+    await loadSpotifyWebPlaybackSDK();
   });
 };
 
