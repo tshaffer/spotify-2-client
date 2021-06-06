@@ -2,10 +2,14 @@ import axios from 'axios';
 import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser } from '../models';
 import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyUser } from '../types';
 
+let player: any;
+let token: string;
+let deviceId: string;
+
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  const token = 'BQD8jvky7kKyyh9tggoul6Ml8OVc2XX5znWtoGKOpTlwujWugoj8XmrLxChm9hR-nQz5_x70ORajtAE5QJdf9vBI_QxSEmBeaHQ61fVc2LDBBV_rCe0qg4SoGdXvQncffkuWPuQWuX5EfqASGfs8P5e49SKYa54GYQ';
-  const player = new Spotify.Player({
+  token = 'BQBFeDpMdwwMiOXizh_dgPd1lh88KR_lniWDBLfor0mkFnVrH1oZvG1GnV_0wYrw82eCBNorYRqhJY0HE1eI4FEV6qquqtg10VOOq9tN_RRTmQIJLEavvqYEX6j9oH3WC8P9e515qaz2dqg9DU_seB13dZ-XYu4U8A';
+  player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
   });
@@ -24,6 +28,7 @@ import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylis
   // Ready
   player.addListener('ready', ({ device_id }) => {
     console.log('Ready with Device ID', device_id);
+    deviceId = device_id;
   });
 
   // Not Ready
@@ -86,14 +91,26 @@ export const getMyPlaylists = () => {
 
 export const startPlayback = () => {
   console.log('invoke startPlayback endpoint');
-  const path = 'http://localhost:8888/api/v1/startPlayback';
-  axios.put(path)
-    .then((response) => {
-      console.log(response);
-    }).catch((err: Error) => {
-      console.log(err);
-      return Promise.reject(err);
-    });
+
+  const spotify_uri = 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr';
+
+  fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ uris: [spotify_uri] }),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+  });
+
+  // const path = 'http://localhost:8888/api/v1/startPlayback';
+  // axios.put(path)
+  //   .then((response) => {
+  //     console.log(response);
+  //   }).catch((err: Error) => {
+  //     console.log(err);
+  //     return Promise.reject(err);
+  //   });
 };
 
 export const pausePlayback = () => {
