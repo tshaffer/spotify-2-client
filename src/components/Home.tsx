@@ -31,6 +31,7 @@ import {
   pausePlayback,
   skipToNextTrack,
   startPlayback,
+  launchApp,
 } from '../controllers';
 import { getSpotifyUser } from '../selectors';
 import { isNil } from 'lodash';
@@ -88,7 +89,7 @@ export interface HomeProps {
   onGetMe: () => any;
   onGetMyPlaylists: () => any;
   onAuthenticate: () => any;
-  // onLaunchApp: () => any;
+  onLaunchApp: () => any;
   onShufflePlayback: (shuffleState: boolean) => any;
   onSkipPrevious: () => any;
   onPausePlayback: () => any;
@@ -101,7 +102,8 @@ const Home = (props: HomeProps) => {
   const classes = useStyles();
 
   // Equivalent to old componentDidMount
-  React.useEffect(props.onGetMe, []);
+  // React.useEffect(props.onGetMe, []);
+  React.useEffect(props.onLaunchApp, []);
 
   const getShuffleIcon = () => {
     return (
@@ -288,6 +290,7 @@ function mapStateToProps(state: any) {
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onAuthenticate: authenticate,
+    onLaunchApp: launchApp,
     onGetMe: getMe,
     onGetMyPlaylists: getMyPlaylists,
     onShufflePlayback: shufflePlayback,
