@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser } from '../models';
-import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyUser } from '../types';
+import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyTrackObject, SpotifyUser } from '../types';
 
 let player: any;
 let token: string;
@@ -85,6 +85,34 @@ export const getMyPlaylists = () => {
       }).catch((err: Error) => {
         console.log(err);
         return Promise.reject(err);
+      });
+  });
+};
+
+// play playlist
+export const playUri = (spotifyPlaylist: SpotifyPlaylist) => {
+
+  console.log('invoke playUri endpoint');
+  return ((dispatch: any, getState: any): any => {
+
+    // get playlist tracks
+    const path = 'http://localhost:8888/api/v1/getPlaylistTracks/' + spotifyPlaylist.id;
+    axios.get(path)
+      .then((response) => {
+        console.log(response);
+        // dispatch(addSpotifyPlaylists(spotifyPlaylists));
+        const spotifyPlaylistItems: SpotifyPlaylistItems = response.data;
+        const items: SpotifyPlaylistTrackObject[] = spotifyPlaylistItems.items;
+        const item: SpotifyPlaylistTrackObject = items[0];
+        const spotifyTrackObject: SpotifyTrackObject = item.track;
+        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+          method: 'PUT',
+          body: JSON.stringify({ uris: [spotifyTrackObject.uri] }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        });
       });
   });
 };

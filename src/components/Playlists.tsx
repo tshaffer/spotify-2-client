@@ -10,13 +10,13 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
-import { openPlaylist, playPlaylist } from '../controllers';
+import { openPlaylist, playPlaylist, playUri, } from '../controllers';
 
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
   onOpenPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
   onPlayPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
-
+  onPlayUri: (spotifyPlaylist: SpotifyPlaylist) => any;
 }
 
 const Playlists = (props: PlaylistsProps) => {
@@ -24,7 +24,10 @@ const Playlists = (props: PlaylistsProps) => {
   const handlePlayPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
     console.log('handlePlayPlaylist');
     console.log(spotifyPlaylist);
-    props.onPlayPlaylist(spotifyPlaylist);
+
+    console.log('Play playlist with uri: ' + spotifyPlaylist.uri);
+    props.onPlayUri(spotifyPlaylist);
+    // props.onPlayPlaylist(spotifyPlaylist);
   };
 
   const handleOpenPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
@@ -122,6 +125,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
     onOpenPlaylist: openPlaylist,
     onPlayPlaylist: playPlaylist,
+    onPlayUri: playUri,
   }, dispatch);
 };
 
