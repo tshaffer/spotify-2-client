@@ -8,7 +8,7 @@ let deviceId: string;
 
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  token = 'BQBFeDpMdwwMiOXizh_dgPd1lh88KR_lniWDBLfor0mkFnVrH1oZvG1GnV_0wYrw82eCBNorYRqhJY0HE1eI4FEV6qquqtg10VOOq9tN_RRTmQIJLEavvqYEX6j9oH3WC8P9e515qaz2dqg9DU_seB13dZ-XYu4U8A';
+  token = 'BQAWDoNcMAKi0sb0BXElXezgYHBmKDY4ebZ8sU_zeSN42mR0iKnbTezG_HA7PKx2sa_PAG6OPlAoROsCet6mnOo_RoAXOWrU_cnNu_9usfR8f6gzj8rwlrbhCRQnAk01I1ch-S-D5pZcsFKuHya2SNgdStxLwmHehQ';
   player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -92,37 +92,28 @@ export const getMyPlaylists = () => {
 export const startPlayback = () => {
   console.log('invoke startPlayback endpoint');
 
-  const spotify_uri = 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr';
+  return ((dispatch: any, getState: any): any => {
 
-  fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-    method: 'PUT',
-    body: JSON.stringify({ uris: [spotify_uri] }),
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
+    const spotify_uri = 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr';
+
+    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ uris: [spotify_uri] }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
   });
-
-  // const path = 'http://localhost:8888/api/v1/startPlayback';
-  // axios.put(path)
-  //   .then((response) => {
-  //     console.log(response);
-  //   }).catch((err: Error) => {
-  //     console.log(err);
-  //     return Promise.reject(err);
-  //   });
 };
 
 export const pausePlayback = () => {
   console.log('invoke pausePlayback endpoint');
-  const path = 'http://localhost:8888/api/v1/pausePlayback';
-  axios.put(path)
-    .then((response) => {
-      console.log(response);
-    }).catch((err: Error) => {
-      console.log(err);
-      return Promise.reject(err);
+  return ((dispatch: any, getState: any): any => {
+    player.togglePlay().then(() => {
+      console.log('Toggled playback!');
     });
+  });
 };
 
 export const shufflePlayback = (shuffleState: boolean) => {
@@ -139,27 +130,22 @@ export const shufflePlayback = (shuffleState: boolean) => {
 
 export const skipToNextTrack = () => {
   console.log('invoke skipToNextTrack endpoint');
-  const path = 'http://localhost:8888/api/v1/skipToNextTrack';
-  axios.post(path)
-    .then((response) => {
-      console.log(response);
-    }).catch((err: Error) => {
-      console.log(err);
-      return Promise.reject(err);
+  return ((dispatch: any, getState: any): any => {
+    player.nextTrack().then(() => {
+      console.log('Skipped to next track!');
     });
+  });
 };
 
 export const skipToPreviousTrack = () => {
   console.log('invoke skipToPreviousTrack endpoint');
-  const path = 'http://localhost:8888/api/v1/skipToPreviousTrack';
-  axios.post(path)
-    .then((response) => {
-      console.log(response);
-    }).catch((err: Error) => {
-      console.log(err);
-      return Promise.reject(err);
+  return ((dispatch: any, getState: any): any => {
+    player.previousTrack().then(() => {
+      console.log('Set to previous track!');
     });
+  });
 };
+
 
 export const openPlaylist = (spotifyPlaylist: SpotifyPlaylist) => {
   return ((dispatch: any, getState: any): any => {
