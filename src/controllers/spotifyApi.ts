@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser } from '../models';
+import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setQueueIndex, setTrackQueueContents } from '../models';
 import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyTrackObject, SpotifyUser } from '../types';
 
 let player: any;
@@ -8,7 +8,7 @@ let deviceId: string;
 
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  token = 'BQAWDoNcMAKi0sb0BXElXezgYHBmKDY4ebZ8sU_zeSN42mR0iKnbTezG_HA7PKx2sa_PAG6OPlAoROsCet6mnOo_RoAXOWrU_cnNu_9usfR8f6gzj8rwlrbhCRQnAk01I1ch-S-D5pZcsFKuHya2SNgdStxLwmHehQ';
+  token = 'BQBJFpe4RbHGnjvCyW2uuddYWTtXA6JQbXDZ-xSrLxNTmxSZeeY0bXjpAYR0I56tSu-z_4S-CMokpTmRfcy1gUijnGk888cM0R32GeXoRLt4TxM-tst19RDAGR-J7k3Dz9eolSgYGeamp0hUGq4H82gLq27z38O_dw';
   player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -100,7 +100,6 @@ export const playUri = (spotifyPlaylist: SpotifyPlaylist) => {
     axios.get(path)
       .then((response) => {
         console.log(response);
-        // dispatch(addSpotifyPlaylists(spotifyPlaylists));
         const spotifyPlaylistItems: SpotifyPlaylistItems = response.data;
         const items: SpotifyPlaylistTrackObject[] = spotifyPlaylistItems.items;
         const item: SpotifyPlaylistTrackObject = items[0];
@@ -113,6 +112,8 @@ export const playUri = (spotifyPlaylist: SpotifyPlaylist) => {
             'Authorization': `Bearer ${token}`
           },
         });
+        dispatch(setQueueIndex(0));
+        dispatch(setTrackQueueContents(items));
       });
   });
 };

@@ -119,6 +119,10 @@ export interface SpotifyTrackObject {
   uri: string;
 }
 
+export interface SpotifyTrackQueue {
+  queueIndex: number;
+  tracks: SpotifyPlaylistTrackObject[];
+}
 // https://developer.spotify.com/documentation/web-api/reference/#object-albumobject
 export interface SpotifyAlbum {
   album_type: 'string';
