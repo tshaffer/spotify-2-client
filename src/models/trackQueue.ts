@@ -10,6 +10,7 @@ import { SpotifyPlaylistAction } from './baseAction';
 
 export const SET_QUEUE_INDEX = 'SET_QUEUE_INDEX';
 export const SET_TRACK_QUEUE_CONTENTS = 'SET_TRACK_QUEUE_CONTENTS';
+export const APPEND_TO_TRACK_QUEUE_CONTENTS = 'APPEND_TO_TRACK_QUEUE_CONTENTS';
 
 // ------------------------------------
 // Actions
@@ -47,11 +48,27 @@ export const setTrackQueueContents = (
   };
 };
 
+export interface AppendToTrackQueueContentsPayload {
+  spotifyTracks: SpotifyPlaylistTrackObject[];
+}
+
+export const appendToTrackQueueContents = (
+  spotifyTracks: SpotifyPlaylistTrackObject[]
+): SpotifyPlaylistAction<AppendToTrackQueueContentsPayload> => {
+
+  return {
+    type: APPEND_TO_TRACK_QUEUE_CONTENTS,
+    payload: {
+      spotifyTracks,
+    },
+  };
+};
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
 
-const initialState: SpotifyTrackQueue= {
+const initialState: SpotifyTrackQueue = {
   queueIndex: -1,
   tracks: [],
 };
@@ -73,6 +90,11 @@ export const spotifyTrackQueueReducer = (
         tracks: action.payload.spotifyTracks,
       };
     }
+    case APPEND_TO_TRACK_QUEUE_CONTENTS:
+      return {
+        ...state,
+        tracks: state.tracks.concat(action.payload.spotifyTracks),
+      };
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setPlaybackState, setQueueIndex, setTrackQueueContents } from '../models';
-import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyTrackObject, SpotifyUser, SpotifyWebPlaybackState } from '../types';
+import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setPlaybackState, setQueueIndex, setTrackQueueContents, appendToTrackQueueContents } from '../models';
+import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyState, SpotifyTrackObject, SpotifyUser, SpotifyWebPlaybackState } from '../types';
 
 // TEDTODO
 import { store } from '../index';
@@ -12,7 +12,7 @@ let deviceId: string;
 
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  token = 'BQB-3u8BKrJU7YHh3WylFpRvoBJs6WEatI7t-4z0rDj3WKqM6qLDh9uJSLd9YvZBEYgynX9Jkw2xjbBIn8E1IGEhJdWsD3EeSRbK0JO_akHnzZ_YLbm0CBGDlZNhJBpH0Aom2q4cUgfAH-kssUh_yl2lazsulFR59g';
+  token = 'BQBBfCl62L2pib26Dx8udxfedM6T0Yjtk4LTM5cg6mIto9CJ3WLroEeWK5Y5aLGMEi1PPAGm09UTdD8MpLJAOB5v5omoiRMmqb-TikrY3M4EinFuVuchmtJ-1xKlmauSYATUMGWqrDfblfqhz4JTk7ZAkpt9Q18B2w';
   player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -122,6 +122,24 @@ export const playUri = (spotifyPlaylist: SpotifyPlaylist) => {
   });
 };
 
+export const addPlaylistTracksToQueue = (spotifyPlaylist: SpotifyPlaylist) => {
+  return ((dispatch: any, getState: any): any => {
+    console.log('invoke getPlaylistTracks endpoint');
+    const path = 'http://localhost:8888/api/v1/getPlaylistTracks/' + spotifyPlaylist.id;
+    axios.get(path)
+      .then((response) => {
+        console.log(response);
+        const spotifyPlaylistItems: SpotifyPlaylistItems = response.data;
+        const items: SpotifyPlaylistTrackObject[] = spotifyPlaylistItems.items;
+        dispatch(appendToTrackQueueContents(items));
+      }).catch((err: Error) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  });
+};
+
+
 export const startPlayback = () => {
   console.log('invoke startPlayback endpoint');
 
@@ -164,18 +182,48 @@ export const shufflePlayback = (shuffleState: boolean) => {
 export const skipToNextTrack = () => {
   console.log('invoke skipToNextTrack endpoint');
   return ((dispatch: any, getState: any): any => {
-    player.nextTrack().then(() => {
-      console.log('Skipped to next track!');
-    });
+
+    const state: SpotifyState = getState();
+    let queueIndex = getQueueIndex(state);
+    const tracks: SpotifyPlaylistTrackObject[] = getTracks(state);
+    queueIndex++;
+    if (queueIndex < tracks.length) {
+      const track: SpotifyPlaylistTrackObject = tracks[queueIndex];
+      const spotifyTrackObject: SpotifyTrackObject = track.track;
+      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ uris: [spotifyTrackObject.uri] }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      dispatch(setQueueIndex(queueIndex));
+    }
   });
 };
 
 export const skipToPreviousTrack = () => {
   console.log('invoke skipToPreviousTrack endpoint');
   return ((dispatch: any, getState: any): any => {
-    player.previousTrack().then(() => {
-      console.log('Set to previous track!');
-    });
+
+    const state: SpotifyState = getState();
+    let queueIndex = getQueueIndex(state);
+    const tracks: SpotifyPlaylistTrackObject[] = getTracks(state);
+    queueIndex--;
+    if (queueIndex >= 0) {
+      const track: SpotifyPlaylistTrackObject = tracks[queueIndex];
+      const spotifyTrackObject: SpotifyTrackObject = track.track;
+      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ uris: [spotifyTrackObject.uri] }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      dispatch(setQueueIndex(queueIndex));
+    }
   });
 };
 
@@ -229,10 +277,10 @@ export const playTrack = (spotifyPlaylistTrackObject: SpotifyPlaylistTrackObject
 };
 
 const playerStateChanged = (newWebPlaybackState: SpotifyWebPlaybackState) => {
-  
+
   console.log('playerStateChanged');
   console.log(newWebPlaybackState);
-  
+
 
   // TEDTODO - refine me!!
 
@@ -255,16 +303,18 @@ const playerStateChanged = (newWebPlaybackState: SpotifyWebPlaybackState) => {
     let queueIndex = getQueueIndex(state);
     const tracks: SpotifyPlaylistTrackObject[] = getTracks(state);
     queueIndex++;
-    const track: SpotifyPlaylistTrackObject = tracks[queueIndex];
-    const spotifyTrackObject: SpotifyTrackObject = track.track;
-    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ uris: [spotifyTrackObject.uri] }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-    });
-    store.dispatch(setQueueIndex(queueIndex));  
+    if (queueIndex < tracks.length) {
+      const track: SpotifyPlaylistTrackObject = tracks[queueIndex];
+      const spotifyTrackObject: SpotifyTrackObject = track.track;
+      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ uris: [spotifyTrackObject.uri] }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      store.dispatch(setQueueIndex(queueIndex));
+    }
   }
 };

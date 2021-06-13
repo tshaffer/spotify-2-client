@@ -8,13 +8,15 @@ import { createHashHistory } from 'history';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
-import { openPlaylist, playPlaylist, playUri, } from '../controllers';
+import { addPlaylistTracksToQueue, openPlaylist, playPlaylist, playUri, } from '../controllers';
 
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
   onOpenPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
+  onAddPlaylistTracksToQueue: (spotifyPlaylist: SpotifyPlaylist) => any;
   onPlayPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
   onPlayUri: (spotifyPlaylist: SpotifyPlaylist) => any;
 }
@@ -40,6 +42,16 @@ const Playlists = (props: PlaylistsProps) => {
     hashHistory.push('/tracks');
   };
 
+  const handleAddPlaylistTracksToQueue = (spotifyPlaylist: SpotifyPlaylist): any => {
+    console.log('handleAddPlaylistTracksToQueue');
+    console.log(spotifyPlaylist);
+
+    props.onAddPlaylistTracksToQueue(spotifyPlaylist);
+
+    // const hashHistory = createHashHistory();
+    // hashHistory.push('/tracks');
+  };
+
   //       <tr key={spotifyPlaylist.id} data-item={spotifyPlaylist.id} onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
 
   const buildPlaylistRow = (spotifyPlaylist: SpotifyPlaylist): any => {
@@ -63,6 +75,13 @@ const Playlists = (props: PlaylistsProps) => {
             id={spotifyPlaylist.id}
             onClick={() => handleOpenPlaylist(spotifyPlaylist)}>
             <AddCircleOutlineIcon />
+          </IconButton>
+        </td>
+        <td>
+          <IconButton
+            id={spotifyPlaylist.id}
+            onClick={() => handleAddPlaylistTracksToQueue(spotifyPlaylist)}>
+            <QueueMusicIcon />
           </IconButton>
         </td>
       </tr>
@@ -98,6 +117,7 @@ const Playlists = (props: PlaylistsProps) => {
               <th>Name</th>
               <th>Track Count</th>
               <th />
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -123,6 +143,7 @@ function mapStateToProps(state: any, ownProps: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onAddPlaylistTracksToQueue: addPlaylistTracksToQueue,
     onOpenPlaylist: openPlaylist,
     onPlayPlaylist: playPlaylist,
     onPlayUri: playUri,
