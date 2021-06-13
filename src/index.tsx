@@ -16,7 +16,7 @@ import Tracks from './components/Tracks';
 export const serverUrl = 'http://localhost:8888';
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
+export const store = createStore(
   rootReducer, /* preloadedState, */ composeEnhancers(
     applyMiddleware(thunkMiddleware)
   ));

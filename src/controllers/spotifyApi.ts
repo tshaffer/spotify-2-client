@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setQueueIndex, setTrackQueueContents } from '../models';
+import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setPlaybackState, setQueueIndex, setTrackQueueContents } from '../models';
 import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyTrackObject, SpotifyUser } from '../types';
+
+// TEDTODO
+import { store } from '../index';
 
 let player: any;
 let token: string;
@@ -8,7 +11,7 @@ let deviceId: string;
 
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  token = 'BQBJFpe4RbHGnjvCyW2uuddYWTtXA6JQbXDZ-xSrLxNTmxSZeeY0bXjpAYR0I56tSu-z_4S-CMokpTmRfcy1gUijnGk888cM0R32GeXoRLt4TxM-tst19RDAGR-J7k3Dz9eolSgYGeamp0hUGq4H82gLq27z38O_dw';
+  token = 'BQAv659G18nnd9T3ae-0fP7c73ATyQdPx-AbbKCsGc_Nfg5y-EMPgpQwVvgrANOIhdlgZ9rDnN2QOXNxpV0OkoWQbSt7CWZDGP8ZqXYx2ehwLY2KjJ93-RoRuqJf61YQYwsnqhmlwpwUfTlRv14M4m92gBU9nMmy7A';
   player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -23,7 +26,7 @@ let deviceId: string;
   player.addListener('playback_error', () => { console.error(message); });
 
   // Playback status updates
-  player.addListener('player_state_changed', (state: any) => { console.log(state); });
+  player.addListener('player_state_changed', playerStateChanged);
 
   // Ready
   player.addListener('ready', ({ device_id }) => {
@@ -222,4 +225,10 @@ export const playTrack = (spotifyPlaylistTrackObject: SpotifyPlaylistTrackObject
     //     return Promise.reject(err);
     //   });
   });
+};
+
+const playerStateChanged = (state: any) => {
+  console.log('playerStateChanged');
+  console.log(state);
+  store.dispatch(setPlaybackState(state));
 };

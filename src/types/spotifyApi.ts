@@ -141,10 +141,24 @@ export interface SpotifyAlbum {
 }
 
 export interface SpotifyArtist {
-  external_urls: SpotifyExternalUrlObject[]; // TEDTODO - array?
+  external_urls: SpotifyExternalUrlObject[]; // TEDTODO - array
   href: string;
   id: string;
   name: string;
   type: string;
   uri: string;
+}
+
+export interface SpotifyWebPlaybackState {
+  context: any;
+  disallows: any;
+  duration: number;
+  paused: boolean;
+  playback_quality: string;
+  position: number;
+  repeat_mode: number;
+  restrictions: any;
+  shuffle: boolean;
+  timestamp: number;
+  track_window: any;
 }
