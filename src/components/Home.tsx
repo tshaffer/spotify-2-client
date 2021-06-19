@@ -60,8 +60,15 @@ const useStyles = makeStyles((theme: Theme) =>
       // height: '1080px',
       height: '100%',
     },
+    navBarDiv: {
+      verticalAlign: 'top',
+      height: '32px',
+    },
+    inlineLi: {
+      display: 'inline',
+    },
     contentDiv: {
-      maxHeight: '700px',
+      maxHeight: '600px',
       overflow: 'auto',
     },
     toolbarDiv: {
@@ -254,6 +261,19 @@ const Home = (props: HomeProps) => {
     }
   };
 
+  const renderNavbar = () => {
+    return (
+      <div>
+        <ul>
+          <li className={classes.inlineLi}><a href="#home">Home</a></li>
+          <li className={classes.inlineLi}><a href="#news">News</a></li>
+          <li className={classes.inlineLi}><a href="#contact">Contact</a></li>
+          <li className={classes.inlineLi}><a href="#about">About</a></li>
+        </ul>
+      </div>
+    );
+  };
+
   const renderToolbar = () => {
     return (
       <div>
@@ -266,6 +286,7 @@ const Home = (props: HomeProps) => {
     );
   };
 
+  const navBar = renderNavbar();
   const mainPage = renderMainPage();
   const toolBar = renderToolbar();
 
@@ -278,6 +299,9 @@ const Home = (props: HomeProps) => {
           <Typography component='h1' variant='h5'>
             Ted Spotify
           </Typography>
+          <div className={classes.navBarDiv}>
+            {navBar}
+          </div>
           <div className={classes.contentDiv}>
             {mainPage}
           </div>
