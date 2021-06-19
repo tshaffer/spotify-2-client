@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import { createHashHistory } from 'history';
 
-
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 
 // import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -286,15 +286,9 @@ const Home = (props: HomeProps) => {
     return (
       <div>
         <ul>
-          <Link className={classes.linkItem} href="#" onClick={handleHome}>
-            Home
-          </Link>
-          <Link className={classes.linkItem} href="#" onClick={handlePlaylists}>
-            Playlists
-          </Link>
-          <Link className={classes.linkItem} href="#" onClick={handleQueue}>
-            Queue
-          </Link>
+          <Link className={classes.linkItem} to='/'>Home</Link>
+          <Link className={classes.linkItem} to='/playlists'>Playlists</Link>
+          <Link className={classes.linkItem} to='/'>Queue</Link>
         </ul>
       </div>
     );
