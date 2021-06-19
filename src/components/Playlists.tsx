@@ -11,10 +11,11 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
-import { addPlaylistTracksToQueue, openPlaylist, playPlaylist, playUri, } from '../controllers';
+import { addPlaylistTracksToQueue, getMyPlaylists, openPlaylist, playPlaylist, playUri, } from '../controllers';
 
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
+  onGetMyPlaylists: () => any;
   onOpenPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
   onAddPlaylistTracksToQueue: (spotifyPlaylist: SpotifyPlaylist) => any;
   onPlayPlaylist: (spotifyPlaylist: SpotifyPlaylist) => any;
@@ -22,6 +23,9 @@ export interface PlaylistsProps {
 }
 
 const Playlists = (props: PlaylistsProps) => {
+
+  // Equivalent to old componentDidMount
+  React.useEffect(props.onGetMyPlaylists, []);
 
   const handlePlayPlaylist = (spotifyPlaylist: SpotifyPlaylist): any => {
     console.log('handlePlayPlaylist');
@@ -143,6 +147,7 @@ function mapStateToProps(state: any, ownProps: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return bindActionCreators({
+    onGetMyPlaylists: getMyPlaylists,
     onAddPlaylistTracksToQueue: addPlaylistTracksToQueue,
     onOpenPlaylist: openPlaylist,
     onPlayPlaylist: playPlaylist,

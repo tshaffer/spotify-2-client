@@ -3,6 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { HashRouter } from 'react-router-dom';
+import { createHashHistory } from 'history';
+
+
 import Link from '@material-ui/core/Link';
 
 // import { Link as RouterLink } from 'react-router-dom';
@@ -64,8 +67,8 @@ const useStyles = makeStyles((theme: Theme) =>
       verticalAlign: 'top',
       height: '32px',
     },
-    inlineLi: {
-      display: 'inline',
+    linkItem: {
+      marginRight: '10px',
     },
     contentDiv: {
       maxHeight: '600px',
@@ -126,7 +129,7 @@ const Home = (props: HomeProps) => {
         <ShuffleIcon style={{ color: 'green' }} />
       </IconButton>
     );
-  }
+  };
 
   const getPreviousIcon = () => {
     return (
@@ -136,7 +139,7 @@ const Home = (props: HomeProps) => {
         <SkipPreviousIcon style={{ color: 'green' }} />
       </IconButton>
     );
-  }
+  };
 
   const getPauseIcon = () => {
     return (
@@ -146,7 +149,7 @@ const Home = (props: HomeProps) => {
         <PauseIcon style={{ color: 'green' }} />
       </IconButton>
     );
-  }
+  };
 
   const getPlayIcon = () => {
     return (
@@ -156,7 +159,7 @@ const Home = (props: HomeProps) => {
         <PlayArrowIcon style={{ color: 'green' }} />
       </IconButton>
     );
-  }
+  };
 
   const getNextIcon = () => {
     return (
@@ -166,22 +169,38 @@ const Home = (props: HomeProps) => {
         <SkipNextIcon style={{ color: 'green' }} />
       </IconButton>
     );
-  }
+  };
+
+  const handleHome = () => {
+    console.log('handleHome');
+    const hashHistory = createHashHistory();
+    hashHistory.push('/home');
+  };
+
+  const handlePlaylists = () => {
+    console.log('handlePlaylists');
+    const hashHistory = createHashHistory();
+    hashHistory.push('/playlists');
+  };
+
+  const handleQueue = () => {
+    console.log('handleQueue');
+  };
 
   const handleShuffle = () => {
     console.log('handleShuffle invoked');
     props.onShufflePlayback(true);
-  }
+  };
 
   const handleSkipPrevious = () => {
     console.log('handleSkipPrevious invoked');
     props.onSkipPrevious();
-  }
+  };
 
   const handlePause = () => {
     console.log('handlePause invoked');
     props.onPausePlayback();
-  }
+  };
 
   const handlePlay = () => {
     console.log('handlePlay invoked');
@@ -234,6 +253,9 @@ const Home = (props: HomeProps) => {
     );
   };
 
+  // <Playlists />
+  //           onClick={handleGetMyPlaylists}
+
   const renderAuthenticatedUser = () => {
     return (
       <div>
@@ -243,11 +265,10 @@ const Home = (props: HomeProps) => {
           fullWidth
           variant='contained'
           color='primary'
-          onClick={handleGetMyPlaylists}
+          onClick={handlePlaylists}
         >
           Retrieve Playlists
         </Button>
-        <Playlists />
       </div>
     );
   };
@@ -265,10 +286,15 @@ const Home = (props: HomeProps) => {
     return (
       <div>
         <ul>
-          <li className={classes.inlineLi}><a href="#home">Home</a></li>
-          <li className={classes.inlineLi}><a href="#news">News</a></li>
-          <li className={classes.inlineLi}><a href="#contact">Contact</a></li>
-          <li className={classes.inlineLi}><a href="#about">About</a></li>
+          <Link className={classes.linkItem} href="#" onClick={handleHome}>
+            Home
+          </Link>
+          <Link className={classes.linkItem} href="#" onClick={handlePlaylists}>
+            Playlists
+          </Link>
+          <Link className={classes.linkItem} href="#" onClick={handleQueue}>
+            Queue
+          </Link>
         </ul>
       </div>
     );
