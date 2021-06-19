@@ -60,11 +60,17 @@ const useStyles = makeStyles((theme: Theme) =>
       // height: '1080px',
       height: '100%',
     },
+    contentDiv: {
+      maxHeight: '700px',
+      overflow: 'auto',
+    },
     toolbarDiv: {
-      position: 'absolute',
-      left: '50%',
-      bottom: '0px',
-      transform: 'translateX(-50%)',
+      // position: 'absolute',
+      // left: '50%',
+      // bottom: '0px',
+      // transform: 'translateX(-50%)',
+      verticalAlign: 'bottom',
+      height: '200px',
     },
     table: {
       minWidth: 750,
@@ -114,7 +120,7 @@ const Home = (props: HomeProps) => {
       </IconButton>
     );
   }
-  
+
   const getPreviousIcon = () => {
     return (
       <IconButton
@@ -124,7 +130,7 @@ const Home = (props: HomeProps) => {
       </IconButton>
     );
   }
-  
+
   const getPauseIcon = () => {
     return (
       <IconButton
@@ -134,7 +140,7 @@ const Home = (props: HomeProps) => {
       </IconButton>
     );
   }
-  
+
   const getPlayIcon = () => {
     return (
       <IconButton
@@ -144,7 +150,7 @@ const Home = (props: HomeProps) => {
       </IconButton>
     );
   }
-  
+
   const getNextIcon = () => {
     return (
       <IconButton
@@ -154,7 +160,7 @@ const Home = (props: HomeProps) => {
       </IconButton>
     );
   }
-  
+
   const handleShuffle = () => {
     console.log('handleShuffle invoked');
     props.onShufflePlayback(true);
@@ -164,22 +170,22 @@ const Home = (props: HomeProps) => {
     console.log('handleSkipPrevious invoked');
     props.onSkipPrevious();
   }
-  
+
   const handlePause = () => {
     console.log('handlePause invoked');
     props.onPausePlayback();
   }
-  
+
   const handlePlay = () => {
     console.log('handlePlay invoked');
     props.onStartOrResumePlayback();
-  }
-  
+  };
+
   const handleSkipNext = () => {
     console.log('handleSkipNext invoked');
     props.onSkipNext();
-  }
-  
+  };
+
   const handleAuthenticate = () => {
     console.log('handleAuthenticate');
     props.onAuthenticate();
@@ -250,7 +256,7 @@ const Home = (props: HomeProps) => {
 
   const renderToolbar = () => {
     return (
-      <div className={classes.toolbarDiv}>
+      <div>
         {getShuffleIcon()}
         {getPreviousIcon()}
         {getPauseIcon()}
@@ -272,8 +278,12 @@ const Home = (props: HomeProps) => {
           <Typography component='h1' variant='h5'>
             Ted Spotify
           </Typography>
-          {mainPage}
-          {toolBar}
+          <div className={classes.contentDiv}>
+            {mainPage}
+          </div>
+          <div className={classes.toolbarDiv}>
+            {toolBar}
+          </div>
         </div>
 
       </Container>
