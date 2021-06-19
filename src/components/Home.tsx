@@ -24,6 +24,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 import Playlists from './Playlists';
+import NavBar from './NavBar';
 
 import {
   getMe,
@@ -282,15 +283,21 @@ const Home = (props: HomeProps) => {
     }
   };
 
+  // const renderNavbar = () => {
+  //   return (
+  //     <div>
+  //       <ul>
+  //         <Link className={classes.linkItem} to='/'>Home</Link>
+  //         <Link className={classes.linkItem} to='/playlists'>Playlists</Link>
+  //         <Link className={classes.linkItem} to='/'>Queue</Link>
+  //       </ul>
+  //     </div>
+  //   );
+  // };
+
   const renderNavbar = () => {
     return (
-      <div>
-        <ul>
-          <Link className={classes.linkItem} to='/'>Home</Link>
-          <Link className={classes.linkItem} to='/playlists'>Playlists</Link>
-          <Link className={classes.linkItem} to='/'>Queue</Link>
-        </ul>
-      </div>
+      <NavBar/>
     );
   };
 

@@ -13,6 +13,20 @@ import { SpotifyPlaylist, SpotifyPlaylists } from '../types';
 import { getSpotifyPlaylists } from '../selectors';
 import { addPlaylistTracksToQueue, getMyPlaylists, openPlaylist, playPlaylist, playUri, } from '../controllers';
 
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import NavBar from './NavBar';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    navBarDiv: {
+      verticalAlign: 'top',
+      height: '32px',
+    },
+  }),
+);
+
+
 export interface PlaylistsProps {
   spotifyPlaylists: SpotifyPlaylists;
   onGetMyPlaylists: () => any;
@@ -23,6 +37,8 @@ export interface PlaylistsProps {
 }
 
 const Playlists = (props: PlaylistsProps) => {
+
+  const classes = useStyles();
 
   // Equivalent to old componentDidMount
   React.useEffect(props.onGetMyPlaylists, []);
@@ -105,6 +121,10 @@ const Playlists = (props: PlaylistsProps) => {
   console.log('spotifyPlaylists');
   console.log(props.spotifyPlaylists);
 
+  // <div className={classes.navBarDiv}>
+  // {NavBar}
+  // </div>
+
   if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
 
     // table of Playlists
@@ -112,7 +132,7 @@ const Playlists = (props: PlaylistsProps) => {
     //    tracks.total
     const playlistRows = buildPlaylistRows();
     return (
-      <div id='SummaryActivities'>
+      <div>
         <br />
         <table id='activitiesTable'>
           <thead>
