@@ -4,6 +4,7 @@ import {
   combineReducers
 } from 'redux';
 import { SpotifyState } from '../types';
+import { appStateReducer } from './appState';
 import { spotifyPlaybackStateReducer } from './playbackState';
 
 import { spotifyPlaylistsReducer } from './spotifyPlaylist';
@@ -20,6 +21,7 @@ export const rootReducer = combineReducers<SpotifyState>({
   spotifyTracks: spotifyTracksReducer,
   spotifyTrackQueue: spotifyTrackQueueReducer,
   spotifyPlaybackState: spotifyPlaybackStateReducer,
+  appState: appStateReducer,
 });
 
 // -----------------------------------------------------------------------

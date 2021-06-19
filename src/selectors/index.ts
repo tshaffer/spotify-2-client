@@ -1,3 +1,4 @@
+export * from './appState';
 export * from './spotifyPlaybackState';
 export * from './spotifyPlaylist';
 export * from './spotifyTrack';

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setPlaybackState, setQueueIndex, setTrackQueueContents, appendToTrackQueueContents } from '../models';
+import { addSpotifyPlaylists, addSpotifyTracks, addSpotifyUser, setPlaybackState, setQueueIndex, setTrackQueueContents, appendToTrackQueueContents, setTargetPlaybackPaused } from '../models';
 import { SpotifyPlaylist, SpotifyPlaylistItems, SpotifyPlaylists, SpotifyPlaylistTrackObject, SpotifyState, SpotifyTrackObject, SpotifyUser, SpotifyWebPlaybackState } from '../types';
 
 // TEDTODO
 import { store } from '../index';
-import { getSpotifyPlaybackState, getQueueIndex, getTracks } from '../selectors';
+import { getSpotifyPlaybackState, getQueueIndex, getTargetPlaybackPaused, getTracks } from '../selectors';
 
 let player: any;
 let token: string;
@@ -12,7 +12,7 @@ let deviceId: string;
 
 (window as any).onSpotifyWebPlaybackSDKReady = () => {
   console.log('onSpotifyWebPlaybackSDKReady invoked');
-  token = 'BQBBfCl62L2pib26Dx8udxfedM6T0Yjtk4LTM5cg6mIto9CJ3WLroEeWK5Y5aLGMEi1PPAGm09UTdD8MpLJAOB5v5omoiRMmqb-TikrY3M4EinFuVuchmtJ-1xKlmauSYATUMGWqrDfblfqhz4JTk7ZAkpt9Q18B2w';
+  token = 'BQCXvyUgFqKKwdPuUJ6RRhVbbUMVcNbiIA8v7JgcVOdrlbyPvElXGPXYpqYugMbL-tsn2CfCj-CqtOtdyRa4Tl6HsdIvaJZ_gQmFQZshZdly_uBTvCgNgsIWwebs4S7esmaGWOM43yl2HKHxw3GL6DmM6jai9Fx4rA';
   player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -161,6 +161,8 @@ export const startPlayback = () => {
 export const pausePlayback = () => {
   console.log('invoke pausePlayback endpoint');
   return ((dispatch: any, getState: any): any => {
+    const targetPlaybackPaused: boolean = getTargetPlaybackPaused(getState());
+    dispatch(setTargetPlaybackPaused(!targetPlaybackPaused));
     player.togglePlay().then(() => {
       console.log('Toggled playback!');
     });
@@ -296,10 +298,12 @@ const playerStateChanged = (newWebPlaybackState: SpotifyWebPlaybackState) => {
   //      set queue index
 
   const state = store.getState();
+
+  const targetPlaybackPaused: boolean = getTargetPlaybackPaused(state);
   const currentWebPlaybackState: SpotifyWebPlaybackState = getSpotifyPlaybackState(state);
   store.dispatch(setPlaybackState(newWebPlaybackState));
 
-  if (!currentWebPlaybackState.paused && newWebPlaybackState.paused) {
+  if (newWebPlaybackState.paused && !targetPlaybackPaused) {
     let queueIndex = getQueueIndex(state);
     const tracks: SpotifyPlaylistTrackObject[] = getTracks(state);
     queueIndex++;
