@@ -13,6 +13,7 @@ import { rootReducer } from './models';
 import Home from './components/Home';
 import Tracks from './components/Tracks';
 import Playlists from './components/Playlists';
+import Queue from './components/Queue';
 
 export const serverUrl = 'http://localhost:8888';
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/home' component={Home} />
+        <Route exact path='/queue' component={Queue} />
         <Route exact path='/tracks' component={Tracks} />
         <Route exact path='/playlists' component={Playlists} />
       </Switch>

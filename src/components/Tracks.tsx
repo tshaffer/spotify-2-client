@@ -105,9 +105,9 @@ const Tracks = (props: TracksProps) => {
     const rows = buildRows(props.spotifyTracks);
 
     return (
-      <div id='SummaryActivities'>
+      <div id=''>
         <br />
-        <table id='activitiesTable'>
+        <table id=''>
           <thead>
             <tr>
               <th />

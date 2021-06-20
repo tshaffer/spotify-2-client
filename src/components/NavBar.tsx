@@ -27,7 +27,7 @@ const NavBar = (props: NavBarProps) => {
       <ul>
         <Link className={classes.linkItem} to='/'>Home</Link>
         <Link className={classes.linkItem} to='/playlists'>Playlists</Link>
-        <Link className={classes.linkItem} to='/'>Queue</Link>
+        <Link className={classes.linkItem} to='/queue'>Queue</Link>
       </ul>
     </div>
   );

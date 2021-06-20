@@ -261,15 +261,6 @@ const Home = (props: HomeProps) => {
     return (
       <div>
         User: {props.spotifyUser.display_name}
-        <Button
-          type='button'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={handlePlaylists}
-        >
-          Retrieve Playlists
-        </Button>
       </div>
     );
   };

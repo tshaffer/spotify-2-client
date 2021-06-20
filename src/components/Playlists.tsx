@@ -136,22 +136,46 @@ const Playlists = (props: PlaylistsProps) => {
     );
   };
 
+  const renderContent = () => {
+
+    if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
+
+      const playlistRows = buildPlaylistRows();
+
+      return (
+        <div>
+          <br />
+          <table>
+            <thead>
+              <tr>
+                <th />
+                <th>Name</th>
+                <th>Track Count</th>
+                <th />
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {playlistRows}
+            </tbody>
+          </table>
+        </div>
+      );
+
+    } else {
+      return null;
+    }
+  };
 
   console.log('spotifyPlaylists');
   console.log(props.spotifyPlaylists);
 
+  const content = renderContent();
   const navBar = renderNavbar();
 
   if (isArray(props.spotifyPlaylists.items) && props.spotifyPlaylists.items.length > 0) {
 
-
-    // table of Playlists
-    //    name
-    //    tracks.total
-    const playlistRows = buildPlaylistRows();
-
     return (
-
       <HashRouter>
         <Container maxWidth='xs'>
           <CssBaseline />
@@ -162,23 +186,7 @@ const Playlists = (props: PlaylistsProps) => {
             <div className={classes.navBarDiv}>
               {navBar}
             </div>
-            <div>
-              <br />
-              <table>
-                <thead>
-                  <tr>
-                    <th />
-                    <th>Name</th>
-                    <th>Track Count</th>
-                    <th />
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {playlistRows}
-                </tbody>
-              </table>
-            </div>
+            {content}
           </div>
         </Container>
       </HashRouter>
